@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Optimization Zoo</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary-bg': '#f7fafc',
+                        'secondary-bg': '#ffffff',
+                        'accent-blue': '#4299e1',
+                        'dark-text': '#2d3748',
+                        'light-text': '#4a5568',
+                        'highlight-green': '#38a169', /* New color for emphasis */
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fafc; /* primary-bg */
+            color: #2d3748; /* dark-text */
+        }
+        .category-title {
+            @apply text-3xl md:text-4xl font-extrabold mb-6 text-dark-text border-b-2 border-accent-blue pb-2;
+        }
+        .sub-category-heading {
+            @apply text-2xl font-bold mt-8 mb-4 text-accent-blue;
+        }
+        /* Table specific styles */
+        .problem-table {
+            @apply w-full border-collapse bg-secondary-bg shadow-md rounded-lg overflow-hidden;
+        }
+        .problem-table th {
+            @apply px-4 py-3 text-left bg-accent-blue text-white font-semibold uppercase text-sm tracking-wider;
+        }
+        .problem-table td {
+            @apply px-4 py-3 border-b border-gray-200 text-light-text;
+        }
+        .problem-table tbody tr:hover {
+            @apply bg-gray-50;
+        }
+        /* Responsive table */
+        @media (max-width: 768px) {
+            .problem-table thead {
+                display: none; /* Hide table headers on small screens */
+            }
+            .problem-table, .problem-table tbody, .problem-table tr, .problem-table td {
+                display: block; /* Make table elements behave like blocks */
+                width: 100%;
+            }
+            .problem-table tr {
+                @apply mb-4 border border-gray-200 rounded-lg shadow-sm;
+            }
+            .problem-table td {
+                @apply text-right relative block pl-24 pr-4 py-2; /* Add padding for "label" */
+                border: none;
+            }
+            .problem-table td::before {
+                content: attr(data-label); /* Use data-label for pseudo-elements */
+                @apply absolute left-0 w-24 px-4 font-semibold text-dark-text text-left;
+            }
+            .problem-table td:first-child {
+                @apply pt-4; /* Add extra padding to the first cell */
+            }
+            .problem-table td:last-child {
+                @apply pb-4; /* Add extra padding to the last cell */
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="min-h-screen flex flex-col items-center">
+        <!-- Header -->
+        <header class="w-full bg-accent-blue text-white shadow-lg py-6 px-4 sm:px-6 lg:px-8 text-center rounded-b-xl">
+            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-2">The Optimization Zoo</h1>
+            <p class="text-lg md:text-xl opacity-90">A guide to the diverse world of optimization problems</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="w-full max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+            <section class="mb-12 text-center">
+                <p class="text-lg md:text-xl text-light-text max-w-3xl mx-auto">
+                    Welcome to the Optimization Zoo! This resource aims to help developers and enthusiasts understand and categorize the vast landscape of optimization problems. Whether you're dealing with resource allocation, scheduling, design, or data analysis, you'll find a problem type that resonates with your challenge.
+                </p>
+            </section>
+
+            <!-- I. Fundamental Optimization Paradigms -->
+            <section class="mb-12">
+                <h2 class="category-title">I. Fundamental Optimization Paradigms</h2>
+                <p class="text-lg text-light-text mb-6">These categories represent core mathematical frameworks for defining and solving optimization problems based on the nature of their objective functions, constraints, and variables.</p>
+
+                <!-- Sub-category: Continuous Linear & Non-Linear Optimization -->
+                <h3 class="sub-category-heading">A. Continuous Linear & Non-Linear Optimization</h3>
+                <p class="text-md text-light-text mb-4">Problems where all decision variables are continuous, ranging from purely linear to complex non-linear forms.</p>
+                <table class="problem-table">
+                    <thead>
+                        <tr>
+                            <th>Problem Name</th>
+                            <th>Description</th>
+                            <th>Primary Paradigm</th>
+                            <th>Related / Inherits From</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-label="Problem Name">Linear Programming (LP)</td>
+                            <td data-label="Description">Optimizing a linear objective function ($75x_1 + 50x_2 + 35x_3$) subject to linear equality and inequality constraints. All variables are continuous. LPs are inherently convex, making them intrinsically easier to solve (e.g., via Simplex or Interior Point methods), with solutions always at 'corner points'.</td>
+                            <td data-label="Primary Paradigm">Continuous Linear (Parent)</td>
+                            <td data-label="Related / Inherits From">N/A</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Problem Name">Quadratic Programming (QP)</td>
+                            <td data-label="Description">Optimizing a quadratic objective function (e.g., $2x_1^2 + 3x_2^2 + 4x_1x_2$) subject to linear constraints. Variables are continuous. QPs can be convex (single minimum, like portfolio optimization) or non-convex ("saddle" shape, multiple local optima), significantly impacting solvability. Solved by specialized Simplex/Interior Point extensions or general NLP methods.</td>
+                            <td data-label="Primary Paradigm">Continuous Quadratic</td>
+                            <td data-label="Related / Inherits From">LP (linear constraints, quadratic objective), NLP (special case)</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Problem Name">Non-Linear Programming (NLP)</td>
+                            <td data-label="Description">Optimizing an objective function and/or constraints that are non-linear. Generally more complex to solve than linear or quadratic problems, as they can be non-convex and involve multiple feasible regions and local optima.</td>
+                            <td data-label="Primary Paradigm">Continuous Non-Linear (Parent)</td>
+                            <td data-label="Related / Inherits From">N/A</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Problem Name">Quadratically Constrained Quadratic Programming (QCQP)</td>
+                            <td data-label="Description">Optimizing a quadratic objective function subject to quadratic constraints. A generalization of QP and a specific type of NLP, found in signal processing and engineering design.</td>
+                            <td data-label="Primary Paradigm">Continuous Non-Linear (Quadratic Form)</td>
+                            <td data-label="Related / Inherits From">NLP (quadratic objective & constraints), QP (more generalized)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Sub-category: Discrete & Mixed-Integer Optimization -->
+                <h3 class="sub-category-heading">B. Discrete & Mixed-Integer Optimization</h3>
+                <p class="text-md text-light-text mb-4">Problems where some or all decision variables must take integer or binary values, often used for modeling discrete choices and resource allocation.</p>
+                <table class="problem-table">
+                    <thead>
+                        <tr>
+                            <th>Problem Name</th>
+                            <th>Description</th>
+                            <th>Primary Paradigm</th>
+                            <th>Related / Inherits From</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-label="Problem Name">Integer Programming (IP)</td>
+                            <td data-label="Description">An extension of LP where some or all of the variables are restricted to be integers. Essential for modeling indivisible items or yes/no decisions.</td>
+                            <td data-label="Primary Paradigm">Discrete Linear (Parent)</td>
+                            <td data-label="Related / Inherits From">LP (adds integer restriction)</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Problem Name">Binary Integer Programming (BIP)</td>
+                            <td data-label="Description">A special case of IP where variables are restricted to be either 0 or 1, representing "yes/no" or "on/off" decisions. Crucial for combinatorial problems.</td>
+                            <td data-label="Primary Paradigm">Discrete Linear (Binary)</td>
+                            <td data-label="Related / Inherits From">IP (special case of integer variables)</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Problem Name">Mixed-Integer Linear Programming (MILP)</td>
+                            <td data-label="Description">Combines LP and IP, allowing for both continuous and integer variables within a linear framework. Widely used in planning and scheduling.</td>
+                            <td data-label="Primary Paradigm">Mixed-Integer Linear</td>
+                            <td data-label="Related / Inherits From">LP, IP (combines continuous and integer variables)</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Problem Name">Mixed-Integer Non-Linear Programming (MINLP)</td>
+                            <td data-label="Description">The most general type, including both continuous and integer variables, with non-linear objectives and/or constraints. Very challenging to solve optimally due to the combination of non-convexity and discrete variables.</td>
+                            <td data-label="Primary Paradigm">Mixed-Integer Non-Linear</td>
+                            <td data-label="Related / Inherits From">NLP, MILP (most general form)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Sub-category: Constraint-Based Paradigms -->
+                <h3 class="sub-category-heading">C. Constraint-Based Paradigms</h3>
+                <p class="text-md text-light-text mb-4">Problems focused on finding any valid assignment of values to variables that satisfies a given set of conditions, rather than optimizing a specific objective function.</p>
+                <table class="problem-table">
+                    <thead>
+                        <tr>
+                            <th>Problem Name</th>
+                            <th>Description</th>
+                            <th>Primary Paradigm</th>
+                            <th>Related / Inherits From</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-label="Problem Name">Constraint Satisfaction Problem (CSP)</td>
+                            <td data-label="Description">Finding a state or a set of values for variables that satisfies a given set of constraints, without necessarily optimizing an explicit objective function. Common in AI for puzzles and logical problems.</td>
+                            <td data-label="Primary Paradigm">Constraint Programming (Parent)</td>
+                            <td data-label="Related / Inherits From">N/A</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- II. Canonical Problem Formulations & Models -->
+            <section class="mb-12">
+                <h2 class="category-title">II. Canonical Problem Formulations & Models</h2>
+                <p class="text-lg text-light-text mb-6">These problems represent particular mathematical structures or models often used across different optimization domains, sometimes serving as building blocks or theoretical equivalents for other problems.</p>
+                <table class="problem-table">
+                    <thead>
+                        <tr>
+                            <th>Problem Name</th>
+                            <th>Description</th>
+                            <th>Primary Paradigm</th>
+                            <th>Related / Inherits From</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-label="Problem Name">Second-Order Cone Programming (SOCP)</td>
+                            <td data-label="Description">Optimizing a linear objective function over the intersection of affine subspaces and second-order cones. Both Linear Programming (LP) and convex Quadratic Programming (QP) are special cases of SOCP, making it a powerful general convex optimization framework. Solved efficiently by interior point methods.</td>
+                            <td data-label="Primary Paradigm">Conic Optimization</td>
+                            <td data-label="Related / Inherits From">LP, Convex QP (generalized form)</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Problem Name">Quadratic Unconstrained Binary Optimization (QUBO)</td>
+                            <td data-label="Description">Optimizing a quadratic objective function where variables are binary (0 or 1) and there are no explicit constraints. Many combinatorial problems can be mapped to QUBO, making it suitable for quantum annealing.</td>
+                            <td data-label="Primary Paradigm">Canonical Binary</td>
+                            <td data-label="Related / Inherits From">Ising Model, BIP</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Problem Name">Ising Model</td>
+                            <td data-label="Description">A mathematical model representing a lattice of discrete variables (spins) in one of two states ($+1$ or $-1$). Closely related to QUBO and used in statistical mechanics and combinatorial optimization, particularly with quantum computing.</td>
+                            <td data-label="Primary Paradigm">Canonical Binary</td>
+                            <td data-label="Related / Inherits From">QUBO (equivalent formulation)</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Problem Name">Boolean Satisfiability (SAT)</td>
+                            <td data-label="Description">Determining if there exists an assignment of truth values to variables in a Boolean formula such that the formula evaluates to true. A foundational problem in computational complexity and logic.</td>
+                            <td data-label="Primary Paradigm">Canonical Logic</td>
+                            <td data-label="Related / Inherits From">CSP (specific type of CSP)</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Problem Name">Set Cover Problem</td>
+                            <td data-label="Description">Given a set of elements and a collection of sets whose union is the universal set, find the minimum number of sets whose union is still the universal set. Classic problem in resource allocation.</td>
+                            <td data-label="Primary Paradigm">Canonical Combinatorial</td>
+                            <td data-label="Related / Inherits From">BIP (can be formulated as such)</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Problem Name">Dominating Set Problem</td>
+                            <td data-label="Description">Finding the smallest subset of vertices in a graph such that every other vertex not in the subset is adjacent to at least one vertex in the subset. Relevant in network design.</td>
+                            <td data-label="Primary Paradigm">Canonical Graph</td>
+                            <td data-label="Related / Inherits From">Vertex Cover, Set Cover</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Problem Name">Maximum Independent Set Problem</td>
+                            <td data-label="Description">Finding the largest set of vertices in a graph such that no two vertices in the set are adjacent. Has applications in scheduling and conflict resolution.</td>
+                            <td data-label="Primary Paradigm">Canonical Graph</td>
+                            <td data-label="Related / Inherits From">Graph Theory, Vertex Cover (complement)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- III. Combinatorial Optimization Problems (Graph-based & Discrete) -->
+            <section class="mb-12">
+                <h2 class="category-title">III. Combinatorial Optimization Problems (Graph-based & Discrete)</h2>
+                <p class="text-lg text-light-text mb-6">These involve finding an optimal object from a finite set of objects, often permutations, combinations, or graphs, typically characterized by discrete choices.</p>
+
+                <!-- Sub-category: General Combinatorial -->
+                <h3 class="sub-category-heading">A. General Combinatorial Problems</h3>
+                <table class="problem-table">
+                    <thead>
+                        <tr>
+                            <th>Problem Name</th>
+                            <th>Description</th>
+                            <th>Primary Paradigm</th>
+                            <th>Related / Inherits From</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-label="Problem Name">Knapsack Problem</td>
+                            <td data-label="Description">Given a set of items, each with a weight and a value, determine the subset of items to include in a collection so that the total weight is within a given limit and the total value is maximized. A classic resource allocation problem.</td>
+                            <td data-label="Primary Paradigm">Combinatorial</td>
+                            <td data-label="Related / Inherits From">IP, Dynamic Programming</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Problem Name">Set Packing Problem</td>
+                            <td data-label="Description">Given a collection of finite sets, find the largest sub-collection of sets such that any two sets in the sub-collection are disjoint. Applications in scheduling and resource allocation.</td>
+                            <td data-label="Primary Paradigm">Combinatorial</td>
+                            <td data-label="Related / Inherits From">IP, Set Cover</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Problem Name">Assignment Problem</td>
+                            <td data-label="Description">Assigning agents to tasks (or resources to jobs) such that each agent is assigned to exactly one task and each task is assigned to exactly one agent, optimizing a total cost or benefit. Common in operations research.</td>
+                            <td data-label="Primary Paradigm">Combinatorial</td>
+                            <td data-label="Related / Inherits From">LP, Network Flow</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Sub-category: Graph-Based Combinatorial -->
+                <h3 class="sub-category-heading">B. Graph-Based Combinatorial Problems</h3>
+                <table class="problem-table">
+                    <thead>
+                        <tr>
+                            <th>Problem Name</th>
+                            <th>Description</th>
+                            <th>Primary Paradigm</th>
+                            <th>Related / Inherits From</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-label="Problem Name">Max Cut Problem</td>
+                            <td data-label="Description">Partitioning the vertices of a graph into two sets such that the sum of weights of edges connecting vertices in different sets is maximized. Fundamental in clustering and network analysis.</td>
+                            <td data-label="Primary Paradigm">Graph Optimization</td>
+                            <td data-label="Related / Inherits From">Graph Theory, QUBO</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Problem Name">Min Cut (Max Flow) Problem</td>
+                            <td data-label="Description">Finding a set of edges whose removal separates a source vertex from a target vertex in a flow network, such that the total capacity of these edges is minimized. This is dual to the Max Flow problem, critical in network reliability and logistics.</td>
+                            <td data-label="Primary Paradigm">Graph Optimization</td>
+                            <td data-label="Related / Inherits From">Graph Theory, Network Flow</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Problem Name">Graph Coloring Problem</td>
+                            <td data-label="Description">Assigning colors to vertices of a graph such that no two adjacent vertices in a graph share the same color, using the minimum possible number of colors. Applications include scheduling and frequency assignment.</td>
+                            <td data-label="Primary Paradigm">Graph Optimization</td>
+                            <td data-label="Related / Inherits From">Graph Theory, CSP</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Problem Name">Traveling Salesman Problem (TSP)</td>
+                            <td data-label="Description">Given a list of cities and the distances between each pair of cities, find the shortest possible route that visits each city exactly once and returns to the origin city. A benchmark for routing algorithms.</td>
+                            <td data-label="Primary Paradigm">Graph Optimization</td>
+                            <td data-label="Related / Inherits From">Graph Theory, IP</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Problem Name">Steiner Tree Problem</td>
+                            <td data-label="Description">Finding a shortest possible network (tree) that connects a given set of required terminal points, potentially by introducing additional intermediate points (Steiner points). Used in network design and VLSI layout.</td>
+                            <td data-label="Primary Paradigm">Graph Optimization</td>
+                            <td data-label="Related / Inherits From">Graph Theory, Shortest Path</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Problem Name">Vertex Cover Problem</td>
+                            <td data-label="Description">Finding the smallest set of vertices in a graph such that every edge in the graph has at least one of its endpoints in this set. Important in network security and error correction.</td>
+                            <td data-label="Primary Paradigm">Graph Optimization</td>
+                            <td data-label="Related / Inherits From">Graph Theory, Set Cover</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Problem Name">Shortest Path Problem</td>
+                            <td data-label="Description">Finding a path between two vertices (or nodes) in a graph such that the sum of the weights of its constituent edges is minimized. Foundational to navigation systems and network routing.</td>
+                            <td data-label="Primary Paradigm">Graph Optimization</td>
+                            <td data-label="Related / Inherits From">Graph Theory, Network Flow</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- IV. Applied & Industry-Specific Optimization Problems -->
+            <section class="mb-12">
+                <h2 class="category-title">IV. Applied & Industry-Specific Optimization Problems</h2>
+                <p class="text-lg text-light-text mb-6">These are real-world challenges that are often modeled using the fundamental paradigms and canonical problems described above, spanning various industries and applications.</p>
+                <table class="problem-table">
+                    <thead>
+                        <tr>
+                            <th>Problem Name</th>
+                            <th>Description</th>
+                            <th>Primary Paradigm</th>
+                            <th>Related / Inherits From</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-label="Problem Name">Job Shop Scheduling Problem</td>
+                            <td data-label="Description">Optimizing the sequence and timing of operations for multiple jobs on multiple machines to minimize total completion time, cost, or maximize throughput, subject to machine and job precedence constraints.</td>
+                            <td data-label="Primary Paradigm">Applied Scheduling</td>
+                            <td data-label="Related / Inherits From">MILP, CSP</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Problem Name">Vehicle Routing Problem (VRP)</td>
+                            <td data-label="Description">Finding optimal routes for a fleet of vehicles to deliver goods or services to a set of customers, minimizing total distance, time, or cost, often with capacity and time window constraints. Essential for logistics and transportation.</td>
+                            <td data-label="Primary Paradigm">Applied Logistics</td>
+                            <td data-label="Related / Inherits From">TSP, MILP</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Problem Name">Feature Selection</td>
+                            <td data-label="Description">In machine learning, selecting an optimal subset of relevant features from a larger set to improve model performance, reduce overfitting, or speed up computation. A pre-processing step for many ML tasks.</td>
+                            <td data-label="Primary Paradigm">Applied Machine Learning</td>
+                            <td data-label="Related / Inherits From">BIP, Combinatorial Opt.</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Problem Name">Peptide Rotamer Design</td>
+                            <td data-label="Description">Optimizing the three-dimensional structure of proteins by selecting the most energetically favorable conformations (rotamers) for amino acid side chains, critical in drug discovery and protein engineering.</td>
+                            <td data-label="Primary Paradigm">Applied Biophysics</td>
+                            <td data-label="Related / Inherits From">MINLP, CSP</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Problem Name">General Scheduling Problem</td>
+                            <td data-label="Description">A broad category encompassing problems involving the allocation of resources over time to perform a set of tasks or activities, optimizing criteria like completion time, cost, or resource utilization. Applies to workforce, project, and machine scheduling.</td>
+                            <td data-label="Primary Paradigm">Applied Scheduling</td>
+                            <td data-label="Related / Inherits From">MILP, CSP, Graph Coloring</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Problem Name">Genome Assembly</td>
+                            <td data-label="Description">Reconstructing a complete DNA sequence from a large number of short, overlapping DNA fragments (reads), often optimizing for minimum overlaps or maximum contiguity to form the full genome. A core problem in bioinformatics.</td>
+                            <td data-label="Primary Paradigm">Applied Bioinformatics</td>
+                            <td data-label="Related / Inherits From">Graph Theory, Shortest Path</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Problem Name">Traffic Matrix Estimation (TME)</td>
+                            <td data-label="Description">Estimating the volume of traffic between different origin-destination pairs in a communication network, often using incomplete measurement data and optimizing for consistency with aggregated flows. Important for network planning.</td>
+                            <td data-label="Primary Paradigm">Applied Network Ops</td>
+                            <td data-label="Related / Inherits From">LP, Network Flow</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Problem Name">Warehouse Inventory Optimization</td>
+                            <td data-label="Description">Determining optimal inventory levels, reorder points, and storage strategies within a warehouse to minimize costs (holding, ordering, stockout) while efficiently meeting demand. Key to supply chain management.</td>
+                            <td data-label="Primary Paradigm">Applied Supply Chain</td>
+                            <td data-label="Related / Inherits From">LP, Stochastic Opt.</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Problem Name">Blending Problem</td>
+                            <td data-label="Description">Determining the optimal proportions of various ingredients to create a product that meets specific quality requirements at the lowest possible cost, common in industries like food, oil, and chemicals. Often formulated as an LP.</td>
+                            <td data-label="Primary Paradigm">Applied Process Opt.</td>
+                            <td data-label="Related / Inherits From">LP</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Problem Name">Portfolio Optimization</td>
+                            <td data-label="Description">Selecting a mix of assets for an investment portfolio to maximize expected return for a given level of risk, or minimize risk for a given expected return. A cornerstone of financial engineering, often using QP and dealing with convex quadratic objectives.</td>
+                            <td data-label="Primary Paradigm">Applied Finance</td>
+                            <td data-label="Related / Inherits From">QP, Stochastic Opt.</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Problem Name">Facility Location Problem</td>
+                            <td data-label="Description">Determining the optimal placement of one or more facilities (e.g., warehouses, hospitals, communication towers) to minimize transportation costs, maximize service coverage, or satisfy other objectives. A common strategic planning problem.</td>
+                            <td data-label="Primary Paradigm">Applied Logistics</td>
+                            <td data-label="Related / Inherits From">MILP, Set Cover</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Problem Name">Cutting Stock Problem</td>
+                            <td data-label="Description">Determining how to cut larger pieces of stock material (e.g., paper, metal, fabric) into smaller pieces of specified sizes to minimize waste or maximize the number of smaller pieces produced. Often solved with column generation techniques.</td>
+                            <td data-label="Primary Paradigm">Applied Industrial Opt.</td>
+                            <td data-label="Related / Inherits From">LP, Integer Programming</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="w-full bg-dark-text text-white py-6 px-4 sm:px-6 lg:px-8 text-center mt-auto rounded-t-xl">
+            <p>&copy; 2025 The Optimization Zoo. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
